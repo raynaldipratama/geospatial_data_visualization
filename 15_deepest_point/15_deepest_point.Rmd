@@ -1,0 +1,297 @@
+---
+title: "The deepest point in the Bay of Biscay"
+author: "*Raynaldi Pratama*"
+#date: "11/02/2021"
+output: 
+  html_document: 
+    toc: TRUE
+    toc_float: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Notes:** It is highly recommended to visit the links provided below for detailed explanations on visualizing map using R as some parts of this project referred to the following series of tutorials:
+
+* [General concepts illustrated with the world map](https://www.r-spatial.org/r/2018/10/25/ggplot2-sf.html)
+* [Adding additional layers: an example with points and polygons](https://www.r-spatial.org/r/2018/10/25/ggplot2-sf-2.html)
+
+**Library setup:**
+
+```{r message=FALSE}
+# World map data from Natural Earth
+library(rnaturalearth)
+library(rnaturalearthdata)
+
+# Data visualization
+library(ggplot2)
+library(ggspatial)
+
+# Raster data
+library(rgdal)
+
+# Bathymetry data
+library(marmap)
+```
+
+***
+
+## World map spatial data
+
+To begin, we will obtain the world map data using **`ne_countries`** command and specify the arguments such that **`scale = "medium"`** and **`returnclass = "sf"`**.
+
+### Load the data from Natural Earth
+
+```{r spdf_world}
+spdf_world <- ne_countries(scale = "medium", returnclass = "sf")
+
+class(spdf_world) # Spatial polygons df
+```
+
+```{r sldf_world}
+sldf_world <- ne_coastline(scale = "medium", returnclass = "sf")
+
+class(sldf_world) # Spatial lines df
+```
+
+### Plot the data
+
+```{r fig.height=3, fig.align='center'}
+theme_set(theme_bw()) # The classic dark-on-light theme works better in 'ggplot2' (optional)
+
+ggplot() +
+  geom_sf(data = spdf_world, aes(fill = continent)) +
+  xlab("Longitude") +
+  ylab("Latitude") +
+  ggtitle("World Map")
+```
+
+***
+
+## Area of interest: Bay of Biscay
+
+The world map can be enlarged to specific coordinates by using **`coord_sf`** function and put arguments to limit both x-axis and y-axis. Note that the coordinates can also be obtained easily, such as from Google Maps.
+
+```{r fig.align='center'}
+ggplot() +
+  geom_sf(data = spdf_world) +
+  coord_sf(xlim = c(-12, 2), ylim = c(40, 50), expand = FALSE)
+```
+
+### Assign x-axis and y-axis limits
+
+```{r fig.align='center'}
+ggplot() +
+  geom_sf(data = spdf_world) +
+  geom_sf(data = sldf_world, size = 0.75) +
+  coord_sf(xlim = c(-12, 2), ylim = c(40, 50), expand = FALSE)
+```
+
+### Add map features
+
+Thanks to **`ggspatial`** library, we can add the scale bar upon the map by using **`annotation_scale`** function. By default, the scale bar would fit the map just fine, and yet for the accuracy purpose, it still needs corrections. Another feature we might want to look, the north arrow sign, can also be added through **`annotation_north_arrow`** command line. More details on both features for customizing purpose:
+
+* [Spatial-aware scalebar annotation](https://paleolimbot.github.io/ggspatial/reference/annotation_scale.html)
+* [Spatial-aware north arrow](https://paleolimbot.github.io/ggspatial/reference/annotation_north_arrow.html)
+
+```{r fig.align='center', message=FALSE}
+ggplot() +
+  geom_sf(data = spdf_world) +
+  geom_sf(data = sldf_world, size = 0.75) +
+  annotation_scale(width_hint = 0.5, location = "bl") +
+  annotation_north_arrow(
+    location = "tl",
+    height = unit(1.5, "cm"),
+    width = unit(1.5, "cm"),
+    pad_x = unit(0.25, "cm"),
+    pad_y = unit(0.25, "cm"),
+    style = north_arrow_fancy_orienteering
+  ) +
+  coord_sf(xlim = c(-12, 2), ylim = c(40, 50), expand = FALSE)
+```
+
+### Final map
+
+Some extra layers will be added to present the final map with details. By using the same script as in the previous plot, the following steps will point out the extra addition:
+
+* To specify a text on the map, we use the **`annotate`** function. In this case, "Bay of Biscay", "Spain" and "France" have been added to define the area of interest. The position of the text is maintained by **`x`** and **`y`** arguments. The other features, such as **`fontface`**, **`color`** and **`size`**, should be adjusted accordingly.
+* Another visual properties within **`ggplot`**, **`theme`**, is set to distinguish between lines on the map, i.e., grid lines, coastline and borderline as well as distinguish land from the sea. Further details of the **`theme`** features are available [in this link](https://ggplot2.tidyverse.org/reference/theme.html). Now, in the final map we specify the axes names such that this will replace X to "Longitude" and Y to "Latitude", and put the map title using **`ggtitle`** function as we did in the world map plot.
+
+```{r fig.align='center', message=FALSE}
+ggplot() +
+  geom_sf(data = spdf_world) +
+  geom_sf(data = sldf_world, size = 0.75) +
+  annotation_scale(width_hint = 0.5, location = "bl") +
+  annotation_north_arrow(
+    location = "tl",
+    height = unit(1.5, "cm"),
+    width = unit(1.5, "cm"),
+    pad_x = unit(0.25, "cm"),
+    pad_y = unit(0.25, "cm"),
+    style = north_arrow_fancy_orienteering
+  ) +
+  annotate(
+    geom = "text",
+    x = -6,
+    y = 46,
+    label = "Bay of Biscay",
+    fontface = "italic",
+    color = "darkblue",
+    size = 4
+  ) +
+  coord_sf(xlim = c(-12, 2), ylim = c(40, 50), expand = FALSE) +
+  theme(
+    panel.grid.major = element_line(
+      color = gray(0.5), linetype = "dashed", size = 0.5
+    ),
+    panel.background = element_rect(fill = "aliceblue")
+  ) +
+  xlab("Longitude") +
+  ylab("Latitude") +
+  ggtitle("Bay of Biscay")
+```
+
+***
+
+## The deepest point
+
+To begin, we will need the corresponding data, specifically the world digital elevation model (ETOPO5), that we can obtain from the European Environment Agency. Follow [this link](https://www.eea.europa.eu/data-and-maps/data/world-digital-elevation-model-etopo5#tab-gis-data) to get into the specific webpage. The raster data can be found under the GIS data tab, which specified the Zipped DEM GeoTIFF raster file. In addition to that, "alwdgg.tif" is the only file we need inside the downloaded folder.
+
+The following lines of scripts are showing how to get the "alwdgg.tif" file into R using **`readGDAL`** function and transform it to **`sp`** data frame. This feature also allows the coordinate reference system (CRS) object conversion to the WGS84 standard by passing **`"+proj=longlat +ellps=WGS84"`** inside the **`CRSobj`** argument. The details on **`spTransform`** are provided [in this link](https://www.rdocumentation.org/packages/move/versions/3.3.0/topics/spTransform).
+
+### Load the data
+
+```{r warning=FALSE}
+raster_data <- readGDAL("alwdgg.tif") # Find the coresponding file inside 00_data/
+
+raster_data_tf <- spTransform(raster_data, CRSobj = "+proj=longlat +ellps=WGS84")
+
+class(raster_data_tf)
+```
+
+### Extract depths and coordinates
+
+We will then need to extract the specific data, i.e., depths and coordinates, from the **`sp`** object to obtain the deepest point corresponding to the Bay of Biscay area. To do so, we need to create a new database only containing depths and coordinates data by putting **`rasterTrans`** inside **`slot()`**. Take a look [here](https://stat.ethz.ch/R-manual/R-devel/library/methods/html/slot.html) to learn more about the use of **`slot`** function.
+
+```{r}
+depths <- slot(raster_data_tf, "data")
+
+coords <- slot(raster_data_tf, "coords")
+
+database <- cbind(coords, depths)
+```
+
+### Specify map limits
+
+As we created a new database, we should specify the limit of the observation only to the Bay of Biscay area. During the observation, we might do some trial and error to find the right limitation to our map.
+
+```{r}
+lonmin <- -9
+
+lonmax <- 0
+
+latmin <- 42
+
+latmax <- 48
+
+BOB_area <- database[
+  database[, 1] >= lonmin & database[, 1] <= lonmax &
+    database[, 2] >= latmin & database[, 2] <= latmax,
+]
+
+deepest_point <- min(BOB_area[, 3])
+
+deepest_point
+
+deepest_point_row <- which.min(BOB_area[, 3])
+
+deepest_point_lat <- BOB_area[deepest_point_row, 2]
+
+deepest_point_lat
+
+deepest_point_lon <- BOB_area[deepest_point_row, 1]
+
+deepest_point_lon
+```
+
+### Plot the deepest point
+
+```{r fig.align='center', message=FALSE}
+ggplot() +
+  geom_sf(data = spdf_world) +
+  geom_sf(data = sldf_world, size = 0.75) +
+  annotation_scale(width_hint = 0.5, location = "bl") +
+  annotation_north_arrow(
+    location = "tl",
+    height = unit(1.5, "cm"),
+    width = unit(1.5, "cm"),
+    pad_x = unit(0.25, "cm"),
+    pad_y = unit(0.25, "cm"),
+    style = north_arrow_fancy_orienteering
+  ) +
+  annotate(
+    geom = "text",
+    x = -6,
+    y = 46,
+    label = "Bay of Biscay",
+    fontface = "italic",
+    color = "darkblue",
+    size = 4
+  ) +
+  annotate(
+    geom = "point",
+    x = deepest_point_lon,
+    y = deepest_point_lat,
+    colour = "red",
+    size = 2
+  ) +
+  annotate(
+    geom = "text",
+    x = deepest_point_lon,
+    y = 44.65,
+    label = "Deepest point: -5036 m",
+    size = 3
+  ) +
+  coord_sf(xlim = c(-12, 2), ylim = c(40, 50), expand = FALSE) +
+  theme(
+    panel.grid.major = element_line(
+      color = gray(0.5), linetype = "dashed", size = 0.5
+    ),
+    panel.background = element_rect(fill = "aliceblue")
+  ) +
+  xlab("Longitude") +
+  ylab("Latitude") +
+  ggtitle("Bay of Biscay")
+```
+
+### Plot the zonal transect
+
+The following steps are done by using the function provided by **`marmap`** package. To retrieve bathymetric data, we can use **`getNOAA.bathy()`** and passing some arguments specifying the coordinates of a specific area. This function allows us to download the data directly from the NOAA server. Alternatively, we could also use **`as.bathy()`** to read the bathymetric data, suppose we already had the data to be analysed. In this case, the data from the previous task is used.
+
+```{r}
+BOB_bathy <- as.bathy(BOB_area)
+```
+
+```{r fig.align='center'}
+transect_zonal <- get.transect(
+  BOB_bathy, -1, deepest_point_lat, -7, deepest_point_lat,
+  distance = TRUE
+)
+
+plotProfile(transect_zonal, main = "Zonal Transect of the Deepest Point")
+```
+
+### Plot the meridional transect
+
+```{r fig.align='center'}
+transect_meridional <- get.transect(
+  BOB_bathy, deepest_point_lon, 43, deepest_point_lon, 47,
+  distance = TRUE
+)
+
+plotProfile(
+  transect_meridional,
+  main = "Meridional Transect of the Deepest Point"
+)
+```
