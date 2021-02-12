@@ -1,0 +1,232 @@
+---
+title: "Map of New Zealand"
+author: "*Raynaldi Pratama*"
+#date: "12/02/2021"
+output: 
+  html_document: 
+    toc: TRUE
+    toc_float: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Notes:** This data visualization project was created by the author as part of his learning journey in data science. The codes written below were forked with some mods from its original source, available in [Introduction to GIS -- Manipulating and Mapping Geospatial Data in R](https://atlan.com/courses/introduction-to-gis-r/).
+
+**Library setup:**
+
+```{r message=FALSE}
+# Data wrangling
+library(dplyr)
+
+# Spatial analysis
+library(sf)
+library(raster)
+library(spData)
+
+# Additional packages
+library(tmap)
+library(grid)
+```
+
+***
+
+## Basic map of New Zealand
+
+The data we are going to use for this project is available in **`spData`** library. Thanks to **Robin Lovelace and his colleagues** for providing, not only a brief intro to **`spData`** library but also a great learning source: [Geocomputation with R](https://geocompr.robinlovelace.net/). In this case, a set of geo-information corresponding to New Zealand, collected in **`nz`** dataset, is chosen.
+
+### Load the data
+
+```{r}
+str(nz)
+```
+
+### Plot the data
+
+To plot the data, we will take advantage of the available thematic map **`tmap`** library. Another good source to explore the use of **`tmap`** can also be found [here](http://zevross.com/blog/2018/10/02/creating-beautiful-demographic-maps-in-r-with-the-tidycensus-and-tmap-packages/). Referring to the data structure shown before, we will consider the **`nz$Land_area`** data for the basic map of New Zealand.
+
+```{r fig.align='center'}
+basic_map_nz <- tm_shape(nz) +
+  tm_fill(
+    col = "Land_area",
+    title = expression("Area (km sq)"),
+    n = 10, palette = "YlGnBu"
+  ) +
+  tm_borders(lwd = 0.5) +
+  tm_text("Name", size = 0.5) +
+  tm_style("grey") +
+  tm_layout(
+    main.title = "Land Area of New Zealand",
+    main.title.position = c("left"),
+    main.title.size = 1,
+    legend.position = c("left", "top"),
+    legend.width = 0.5
+  ) +
+  tm_credits(
+    "Source: Geocomputation in R",
+    position = c("right", "bottom")
+  )
+
+basic_map_nz
+```
+
+***
+
+## Population and sex ratio in NZ
+
+### Plot the population data
+
+```{r fig.align='center', message=FALSE}
+population_nz <- tm_shape(nz) +
+  tm_fill(
+    col = "Population",
+    title = "No. Population",
+    n = 10, palette = "YlOrBr"
+  ) +
+  tm_borders(lwd = 0.5) +
+  tm_text("Name", size = 0.5) +
+  tm_style("grey") +
+  tm_layout(
+    main.title = "Population in New Zealand",
+    main.title.position = c("left"),
+    main.title.size = 1,
+    legend.position = c("left", "top"),
+    legend.width = 0.5
+  ) +
+  tm_credits(
+    "Source: Geocomputation in R",
+    position = c("right", "bottom")
+  )
+
+population_nz
+```
+
+### Plot the sex ratio data
+
+```{r fig.align='center'}
+sex_ratio_nz <- tm_shape(nz) +
+  tm_fill(
+    col = "Sex_ratio",
+    title = "Sex Ratio",
+    palette = "OrRd"
+  ) +
+  tm_borders(lwd = 0.5) +
+  tm_text("Name", size = 0.5) +
+  tm_style("grey") +
+  tm_layout(
+    main.title = "Sex Ratio in New Zealand",
+    main.title.position = c("left"),
+    main.title.size = 1,
+    legend.position = c("left", "top"),
+    legend.width = 0.5
+  ) +
+  tm_credits(
+    "Source: Geocomputation in R",
+    position = c("right", "bottom")
+  )
+
+sex_ratio_nz
+```
+
+### Line up multiple **`tmap`** objects
+
+To get a general picture of the comparison between population and sex ratio in New Zealand, it is a good idea to have both maps plotted side by side. In **`tmap`** library, this can be done by calling out **`tmap_arrange()`** and passing in the designated map(s) as an argument.
+
+```{r fig.align='center'}
+tmap_arrange(population_nz, sex_ratio_nz)
+```
+
+***
+
+## Median income in NZ (South)
+
+### Plot the median income data
+
+According to **`nz`** dataset, we can plot the median income data of New Zealanders as a map. However, it might be more interesting to see how we can visualize the data, not for a full country, but, based on the **`nz$Island`** division: North and South. Now, suppose we are interested in the Southern part of New Zealand, then we should filter out all the data corresponding to the North New Zealand.
+
+```{r fig.align='center'}
+south_median_income <- nz %>%
+  filter(Island == "South") %>%
+  tm_shape() +
+  tm_fill(
+    col = "Median_income",
+    title = "Median Income (NZD)",
+    n = 10, palette = "Reds"
+  ) +
+  tm_borders(lwd = 0.5) +
+  tm_text("Name", size = 0.5) +
+  tm_layout(
+    main.title = "Median Income in the Southern NZ",
+    main.title.position = c("left"),
+    main.title.size = 1,
+    legend.position = c("left", "top"),
+    legend.width = 0.5
+  ) +
+  tm_credits(
+    "Source: Geocomputation in R",
+    position = c("right", "bottom")
+  )
+
+south_median_income
+```
+
+### Add the inset map feature
+
+In general, the inset figure is not always essential to our map. However, in this specific case, it can be more informative to put the inset map feature as we want to show which part of our area of interest. The inset map below indicates the Southern New Zealand area in red colour. It should be noted that to get a proportional size and position of the inset, trials and errors should be performed accordingly.
+
+```{r fig.align='center'}
+inset <- nz %>%
+  group_by(Island) %>%
+  mutate(Southern_NZ = ifelse(Island == "South", TRUE, FALSE)) %>%
+  tm_shape() +
+  tm_fill(col = "Southern_NZ", palette = c("grey", "red")) +
+  tm_style("cobalt") +
+  tm_legend(show = FALSE)
+
+south_median_income
+
+print(inset, vp = viewport(0.65, 0.25, width = 0.25, height = 0.35))
+```
+
+***
+
+## Animated and interactive map
+
+### Median income in NZ (South)
+
+```{r}
+nz_animation <- tm_shape(nz) +
+  tm_borders(lwd = 1.5) +
+  tm_fill(
+    col = "Median_income",
+    title = "Median Income (NZD)",
+    palette = "OrRd"
+  ) +
+  tm_facets(
+    by = "Island", along = "Name", free.coords = FALSE
+  )
+```
+
+```{r eval=FALSE}
+# Write .gif file
+tmap_animation(nz_animation, filename = "nz_animation.gif", delay = 150)
+```
+
+```{r echo=FALSE, fig.align='center'}
+knitr::include_graphics("nz_animation.gif")
+```
+
+### Interactive map
+
+```{r eval=FALSE}
+tmap_mode(mode = "view") # mode = "view" for interactive map
+```
+
+```{r echo=FALSE}
+tmap_mode(mode = "view") # mode = "view" for interactive map
+```
+
+```{r message=FALSE, out.width='100%'}
+basic_map_nz
+```
