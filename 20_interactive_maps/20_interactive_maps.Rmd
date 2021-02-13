@@ -1,0 +1,135 @@
+---
+title: "Charging stations in Boston"
+author: "*Raynaldi Pratama*"
+#date: "12/02/2021"
+output: 
+  html_document: 
+    toc: TRUE
+    toc_float: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Notes:** This geospatial data visualization project was created by the author as part of his learning journey in data science. The codes written below were forked with some modifications from its original source: [Building Interactive Maps with Leaflet](https://www.r-bloggers.com/2015/11/building-interactive-maps-with-leaflet/) by **Teja Kodali**.
+
+**Library setup:**
+
+```{r message=FALSE}
+# Data wrangling
+library(dplyr)
+
+# Interactive web maps
+library(leaflet)
+
+# Additional package
+library(magrittr)
+```
+
+***
+
+## Basic map of Boston
+
+### Default (OpenStreetMap) tiles
+
+To begin the plot, we need first to specify the limits of our map so that the area of interest will be properly displayed, which may be done using **`setView()`** command. Additional feature such as marker may also be added using **`addMarkers()`**. It should be noted that **`addTiles()`** will return the plot in OpenStreetMap tiles by default.
+
+```{r out.width='100%'}
+map_boston <- leaflet() %>%
+  addTiles() %>%
+  setView(-71.038887, 42.364506, zoom = 13) %>%
+  addMarkers(-71.05775, 42.3605, popup = "Boston City Hall")
+
+map_boston
+```
+
+### Third-party tiles
+
+In this second plot, we will be using different map tiles introduced by the third-party provider, **`providers$Stamen.Toner`**. For another demonstration, one may refer to [Leaflet for R](https://rstudio.github.io/leaflet/basemaps.html) documentation in Basemaps section.
+
+```{r out.width='100%'}
+map_boston <- leaflet() %>%
+  addProviderTiles(providers$Stamen.Toner) %>%
+  setView(-71.038887, 42.364506, zoom = 13) %>%
+  addMarkers(-71.05775, 42.3605, popup = "Boston City Hall")
+
+map_boston
+```
+
+***
+
+## Load the data
+
+**`Charging_Stations`** is available, along with the other open access datasets, on the City of Boston's open data hub: [Analyse Boston](https://data.boston.gov/).  
+
+### View the data structure
+
+```{r}
+data_boston <- read.csv("Charging_Stations.csv")
+
+str(data_boston)
+```
+
+### Inspect the connector types
+
+It can be noticed that there is more than one type of EV connector. To see the complete records of these connector types, we might want to briefly inspect the data. In this case, **"J1772"** type dominates the total share with another five different types of connector: **"NEMA515 J1772"**, **"NEMA520 J1772"**, **"TESLA"**, **"J1772 J1772COMBO"** and **"CHADEMO"** as can be seen below.
+
+```{r}
+data_boston$EV_Connector_Types
+```
+
+In this case, we will only plot the location for **"J1772"** and **"TESLA"** connector types on our map. A data filtering should then be performed as written in the following lines of code.
+
+```{r}
+data_charging_stations <- data_boston %>%
+  filter(data_boston$EV_Connector_Types == "J1772" |
+    data_boston$EV_Connector_Types == "TESLA")
+
+data_charging_stations$EV_Connector_Types
+```
+
+***
+
+## Plot the corresponding data
+
+```{r out.width='100%'}
+map_boston <- leaflet() %>%
+  addProviderTiles(providers$Stamen.Toner) %>%
+  setView(-71.038887, 42.364506, zoom = 12) %>%
+  addMarkers(
+    data = data_charging_stations,
+    lng = data_charging_stations$Longitude,
+    lat = data_charging_stations$Latitude,
+    popup = data_charging_stations$Station_Name
+  )
+
+map_boston
+```
+
+All selected charging station locations are already represented in the figure above. However, we cannot tell which station uses either **"J1772"** or **"TESLA"** connector. In that case, one way to fix that is by changing the popup argument to **`$EV_Connector_Types`**. That way, we can identify the connector type in each location by clicking on the marker.
+
+***
+
+## Cluster the markers
+
+Another way to visualize our map more conveniently is to cluster the existing markers to avoid the overlapping point. Before we begin, it is worth mentioning that it would be better to use a circle marker instead of the initial marker we used in the previous figure for clustering purpose. In that case, we should replace **`addMarkers()`** with **`addCircleMarkers()`** within our code. A comprehensive documentation of **`addCircleMarkers()`** can be found [here](https://rstudio.github.io/leaflet/markers.html). Additional details: **"J1772"** connector type is marked with a red colour, while **"TESLA"**, blue.
+
+```{r out.width='100%'}
+map_boston <- leaflet() %>%
+  addProviderTiles(providers$Stamen.Toner) %>%
+  setView(-71.038887, 42.364506, zoom = 12) %>%
+  addCircleMarkers(
+    data = data_charging_stations,
+    lng = data_charging_stations$Longitude,
+    lat = data_charging_stations$Latitude,
+    radius = 3,
+    color = ifelse(
+      data_charging_stations$EV_Connector_Types == "J1772", "red", "blue"
+    ),
+    clusterOptions = markerClusterOptions(),
+    popup = data_charging_stations$Station_Name
+  )
+
+map_boston
+```
