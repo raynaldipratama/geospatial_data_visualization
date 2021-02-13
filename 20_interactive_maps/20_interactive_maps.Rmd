@@ -12,7 +12,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-**Notes:** This geospatial data visualization project was created by the author as part of his learning journey in data science. The codes written below were forked with some modifications from its original source: [Building Interactive Maps with Leaflet](https://www.r-bloggers.com/2015/11/building-interactive-maps-with-leaflet/) by **Teja Kodali**.
+**Notes:** This geospatial data visualization project was re-worked by the author as part of his learning journey in data science. The codes written below were forked with some modifications from its original source: [Building Interactive Maps with Leaflet](https://www.r-bloggers.com/2015/11/building-interactive-maps-with-leaflet/) by **Teja Kodali**.
 
 **Library setup:**
 
