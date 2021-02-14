@@ -66,7 +66,7 @@ map_boston
 ### View the data structure
 
 ```{r}
-data_boston <- read.csv("Charging_Stations.csv")
+data_boston <- read.csv("Charging_Stations.csv") # Find the coresponding file inside 00_data/
 
 str(data_boston)
 ```
