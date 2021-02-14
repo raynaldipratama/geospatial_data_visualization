@@ -17,8 +17,4 @@ This repository contains several portfolios created for personal documentation a
   
   *Libraries:* `OSMnx` `Matplotlib` `NetworkX` `GeoPandas` `pandas`
 
-## Recommended sources
-
-* abc
-* bcd
-* cde
+**This file is currently under construction!**
