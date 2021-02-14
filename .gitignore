@@ -262,9 +262,12 @@ $RECYCLE.BIN/
 13_publication_quality_graphics/
 14_raster_ts_values/
 15_deepest_point/alwdgg.tif
+15_deepest_point/rsconnect/
 16_python_foundation/
 17_openstreetmap_data/cache/
 18_network_analysis/cache/
+19_simple_maps/rsconnect/
+20_interactive_maps/rsconnect/
 CHM_HARV.tif
 meanNDVI_HARV_2011.csv
 meanNDVI_SJER_2011.csv
