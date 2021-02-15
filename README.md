@@ -13,7 +13,7 @@ This repository contains several portfolios created for personal documentation a
 
 * **Python**
   * [Bicycle rental locations in Bilbao](https://github.com/raynaldipratama/geospatial_data_visualization/blob/main/17_openstreetmap_data/17_openstreetmap_data.ipynb): A static map showing the available bicycle rental locations in Bilbao.
-  * [The shortest path visualization](https://github.com/raynaldipratama/geospatial_data_visualization/blob/main/18_network_analysis/18_network_analysis.ipynb): Finding the accessible shortest path of two selected locations in Bilbao. 
+  * [The shortest path visualization](https://github.com/raynaldipratama/geospatial_data_visualization/blob/main/18_network_analysis/18_network_analysis.ipynb): Finding the accessible shortest path of two selected coordinates, from Edificio Euskalduna to the most eastern location within Bilbao area.
   
   *Tools:* `OSMnx` `Matplotlib` `NetworkX` `GeoPandas` `pandas`
 
