@@ -26,7 +26,7 @@ Below are several recommended sources suitable for those currently at the beginn
     * [Adding additional layers: an example with points and polygons](https://www.r-spatial.org/r/2018/10/25/ggplot2-sf-2.html)
     * [Positioning and layout for complex maps](https://www.r-spatial.org/r/2018/10/25/ggplot2-sf-3.html)
   * [Atlan](https://atlan.com/)'s free online course: [Introduction to GIS &mdash; Manipulating and Mapping Geospatial Data in R](https://atlan.com/courses/introduction-to-gis-r/)
-  * [Geocomputation in R](https://geocompr.robinlovelace.net/) by **Robin Lovelace**, **Jakub Nowosad** and **Jannes Muenchow**
+  * [Geocomputation with R](https://geocompr.robinlovelace.net/) by **Robin Lovelace**, **Jakub Nowosad** and **Jannes Muenchow**
 <br><br>
 * **Python**
   * [SpatialThoughts](https://spatialthoughts.com/)' course by **Ujaval Gandhi**: [Python Foundation for Spatial Analysis](https://spatialthoughts.com/courses/python-foundation-for-spatial-analysis/)
