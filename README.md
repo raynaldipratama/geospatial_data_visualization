@@ -1,6 +1,6 @@
 # Geospatial Data Visualization
 
-This repository contains several portfolios created for personal documentation and demo purpose as part of a self-taught data science learning journey, presented in **R Markdown** or **Jupyter Notebook**. The regular update for this repository is not part of the current plan.
+This repository contains several portfolios created for personal documentation and demo purpose as part of a self-taught data science learning journey, presented in **R Markdown** or **Jupyter Notebook**. Additional portfolio(s) will be uploaded depending on its availability as the regular update regarding the content is not part of the current plan. 
 
 ## Contents
 
@@ -17,4 +17,6 @@ This repository contains several portfolios created for personal documentation a
   
   *Tools:* `OSMnx` `Matplotlib` `NetworkX` `GeoPandas` `pandas`
 
-**This file is currently under construction!**
+## Recommended sources
+
+
