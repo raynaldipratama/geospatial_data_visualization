@@ -21,11 +21,11 @@ Below are several recommended sources suitable for those currently at the beginn
     * [Introduction to Geospatial Concepts](http://www.datacarpentry.org/organization-geospatial/)
     * [Introduction to R for Geospatial Data](http://www.datacarpentry.org/r-intro-geospatial)
     * [Introduction to Geospatial Raster and Vector Data with R](http://www.datacarpentry.org/r-raster-vector-geospatial)
-  * [r-spatial](https://www.r-spatial.org/)'s series of tutorials &mdash; Drawing beautiful maps programmatically with R, sf and ggplot2:
+  * [r-spatial](https://www.r-spatial.org/)'s series of tutorials: Drawing beautiful maps programmatically with R, sf and ggplot2:
     * [General concepts illustrated with the world map](https://www.r-spatial.org/r/2018/10/25/ggplot2-sf.html)
     * [Adding additional layers: an example with points and polygons](https://www.r-spatial.org/r/2018/10/25/ggplot2-sf-2.html)
     * [Positioning and layout for complex maps](https://www.r-spatial.org/r/2018/10/25/ggplot2-sf-3.html)
-  * [Atlan](https://atlan.com/)'s free online course: [Introduction to GIS &mdash; Manipulating and Mapping Geospatial Data in R](https://atlan.com/courses/introduction-to-gis-r/)
+  * [Atlan](https://atlan.com/)'s free online course: [Introduction to GIS: Manipulating and Mapping Geospatial Data in R](https://atlan.com/courses/introduction-to-gis-r/)
   * [Geocomputation with R](https://geocompr.robinlovelace.net/) by **Robin Lovelace**, **Jakub Nowosad** and **Jannes Muenchow**
 <br><br>
 * **Python**
