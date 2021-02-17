@@ -246,7 +246,11 @@ $RECYCLE.BIN/
 00_data/PlotLocations_HARV.shp
 00_data/PlotLocations_HARV.shx
 00_data/worldcities.csv
-00_output/
+00_output/cities_distance_pandas.csv
+00_output/frankfurt_distance.csv
+00_output/mountains.gpkg
+00_output/national_highways_by_districts.csv
+00_output/nyc_distance.csv
 01_intro_to_raster_data/
 02_plot_raster_data/
 03_reproject_raster_data/
