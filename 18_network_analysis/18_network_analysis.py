@@ -6,9 +6,13 @@
 # 1.0 Get the network ----
 
 import osmnx as ox
+
 import networkx as nx
+
 import geopandas as gpd
+
 import pandas as pd
+
 from pyproj import CRS
 
 place_name = "Abando, Bilbao, Spain"
@@ -27,8 +31,6 @@ edges.columns
 edges.crs
 
 edges.head()
-
-edges["highway"].value_counts()
 
 # Project the data
 graph_proj = ox.project_graph(graph)
