@@ -48,6 +48,7 @@ CRS(edges_proj.crs).to_epsg()
 
 # Calculate network statistics
 stats = ox.basic_stats(graph_proj, circuity_dist="euclidean")
+
 stats
 
 # Get the Convex Hull of the network
@@ -73,7 +74,7 @@ pd.Series(stats)
 
 # 3.0 Shortest path analysis ----
 
-## Origin and destination points
+# Origin and destination points
 
 # Set place name
 place = "Edificio Euskalduna"
@@ -102,7 +103,7 @@ destination = nodes_proj.loc[nodes_proj["x"] == maxx, "geometry"].values[0]
 
 print(destination)
 
-## Nearest node
+# Nearest node
 
 # Get origin x and y coordinates
 orig_xy = (origin.y, origin.x)
@@ -113,16 +114,19 @@ target_xy = (destination.y, destination.x)
 # Find the node in the graph that is closest to the origin point
 # (here, we want to get the node id)
 orig_node_id = ox.get_nearest_node(graph_proj, orig_xy, method="euclidean")
+
 orig_node_id
 
 # Find the node in the graph that is closest to the target point
 # (here, we want to get the node id)
 target_node_id = ox.get_nearest_node(graph_proj, target_xy, method="euclidean")
+
 target_node_id
 
 # Retrieve the rows from the nodes GeoDataFrame based on the node id
 # (node id is the index label)
 orig_node = nodes_proj.loc[orig_node_id]
+
 target_node = nodes_proj.loc[target_node_id]
 
 # Create a GeoDataFrame from the origin and target points
@@ -132,7 +136,7 @@ od_nodes = gpd.GeoDataFrame(
 
 od_nodes.head()
 
-## Routing
+# Routing
 
 # Calculate the shortest path
 route = nx.shortest_path(
