@@ -88,7 +88,7 @@ edges.plot(ax=ax, linewidth=1, edgecolor="dimgray")
 # Plot buildings
 buildings.plot(ax=ax, facecolor="silver", alpha=0.7)
 
-# Plot restaurants
+# Plot parking
 parking.plot(ax=ax, color="red", alpha=1, markersize=10)
 
 plt.tight_layout()

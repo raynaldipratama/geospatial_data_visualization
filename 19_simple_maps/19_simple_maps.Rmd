@@ -12,7 +12,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-**Notes:** This portfolio was re-worked by the author using a different dataset. The original source code can be found in [Introduction to GIS: Manipulating and Mapping Geospatial Data in R](https://atlan.com/courses/introduction-to-gis-r/).
+**Acknowledgement:** This portfolio was re-worked by the author using a different dataset. The original source code can be found in [Introduction to GIS: Manipulating and Mapping Geospatial Data in R](https://atlan.com/courses/introduction-to-gis-r/).
 
 **Library setup:**
 

@@ -12,7 +12,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-**Notes:** This portfolio was re-worked by the author using a different dataset. The original source code can be found in [Building Interactive Maps with Leaflet](https://www.r-bloggers.com/2015/11/building-interactive-maps-with-leaflet/) by **Teja Kodali**.
+**Acknowledgement:** This portfolio was re-worked by the author using a different dataset. The original source code can be found in [Building Interactive Maps with Leaflet](https://www.r-bloggers.com/2015/11/building-interactive-maps-with-leaflet/) by **Teja Kodali**.
 
 **Library setup:**
 
