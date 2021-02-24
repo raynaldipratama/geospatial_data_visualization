@@ -10,7 +10,7 @@ This repository contains several portfolios created for personal documentation o
   * [Charging stations in Boston](https://rpubs.com/raynaldiprtm/geodataviz-20): Interactive maps showing the location of several charging stations with a specific EV connector type in Boston. *Tools:* `dplyr` `leaflet` `magrittr`
 <br><br>
 * **Python**
-  * Available car parks located in Etterbeek, Brussels-Capital (BE): A static map showing the available car parks located in Etterbeek, Brussels-Capital (BE). *Tools:* `OSMnx` `Matplotlib`
+  * [Available car parks located in Etterbeek, Brussels-Capital (BE)](https://github.com/raynaldipratama/geospatial_data_visualization/blob/main/17_openstreetmap_data/17_openstreetmap_data.ipynb): A static map showing the available car parks located in Etterbeek, Brussels-Capital (BE). *Tools:* `OSMnx` `Matplotlib`
   * [The shortest path visualization](https://github.com/raynaldipratama/geospatial_data_visualization/blob/main/18_network_analysis/18_network_analysis.ipynb): Finding the accessible shortest path of two selected coordinates, from Edificio Euskalduna to the most eastern location within Bilbao area. *Tools:* `OSMnx` `NetworkX` `GeoPandas` `pandas`
 
 ## Recommended sources
