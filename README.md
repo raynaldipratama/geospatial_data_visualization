@@ -1,6 +1,6 @@
 # Geospatial Data Visualization
 
-This repository contains several portfolios created for personal documentation, demo and self-taught learning purpose, presented in **R Markdown** and **Jupyter Notebook**. Additional portfolio(s) will be added later once it is available.
+This repository contains several portfolios created for personal documentation, self-taught learning and demo purpose, presented in **R Markdown** and **Jupyter Notebook**. Additional portfolio(s) will be added later once it is available.
 
 ## Contents
 
