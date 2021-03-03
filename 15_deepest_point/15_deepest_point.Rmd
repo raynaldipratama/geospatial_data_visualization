@@ -12,7 +12,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-**Notes:** It is highly recommended to visit the links provided below for detailed explanations on visualizing map using R as some parts of this project referred to the following series of tutorials:
+**Notes:** It is highly recommended to visit the links provided below for detailed explanations on visualizing map using R as some parts of this portfolio referred to the following series of tutorials:
 
 * [General concepts illustrated with the world map](https://www.r-spatial.org/r/2018/10/25/ggplot2-sf.html)
 * [Adding additional layers: an example with points and polygons](https://www.r-spatial.org/r/2018/10/25/ggplot2-sf-2.html)
