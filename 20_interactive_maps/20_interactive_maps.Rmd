@@ -1,11 +1,14 @@
 ---
 title: "Charging stations in Boston"
 author: "*Raynaldi Pratama*"
-#date: "12/02/2021"
+date: "12/02/2021"
 output: 
-  html_document: 
-    toc: TRUE
-    toc_float: TRUE
+  rmdformats::downcute:
+    self_contained: TRUE
+    thumbnails: TRUE
+    lightbox: TRUE
+    gallery: TRUE
+    highlight: tango
 ---
 
 ```{r setup, include=FALSE}
@@ -16,7 +19,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 **Library setup:**
 
-```{r message=FALSE}
+```{r message=FALSE, warning=FALSE}
 # Data wrangling
 library(dplyr)
 
