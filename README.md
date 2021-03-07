@@ -5,9 +5,9 @@ This repository contains several portfolios created for personal documentation, 
 ## Contents
 
 * **R**
-  * [The deepest point in the Bay of Biscay](https://rpubs.com/raynaldiprtm/geodataviz-15): A static map showing the Bay of Biscay location in the North of Spain, including the deepest point within this area with its transect plots depicting the ocean depth cross-section visualization. *Tools:* `rnaturalearth` `rnaturalearthdata` `ggplot2` `ggspatial` `rgdal` `marmap`
-  * [Map of New Zealand](https://rpubs.com/raynaldiprtm/geodataviz-19): Geographical information, i.e., land area, population, sex ratio, and the country's median income, presented in several plots. *Tools:* `dplyr` `sf` `raster` `spData` `tmap` `grid`
-  * [Charging stations in Boston](https://rpubs.com/raynaldiprtm/geodataviz-20): Interactive maps showing the location of several charging stations with a specific EV connector type in Boston. *Tools:* `dplyr` `leaflet` `magrittr`
+  * [The deepest point in the Bay of Biscay](https://rpubs.com/raynaldiprtm/geo-datavis-15): A static map showing the Bay of Biscay location in the North of Spain, including the deepest point within this area with its transect plots depicting the ocean depth cross-section visualization. *Tools:* `rnaturalearth` `rnaturalearthdata` `ggplot2` `ggspatial` `rgdal` `marmap`
+  * [Map of New Zealand](https://rpubs.com/raynaldiprtm/geo-datavis-19): Geographical information, i.e., land area, population, sex ratio, and the country's median income, presented in several plots. *Tools:* `dplyr` `sf` `raster` `spData` `tmap` `grid`
+  * [Charging stations in Boston](https://rpubs.com/raynaldiprtm/geo-datavis-20): Interactive maps showing the location of several charging stations with a specific EV connector type in Boston. *Tools:* `dplyr` `leaflet` `magrittr`
 <br><br>
 * **Python**
   * [Available car parks located in Etterbeek, Brussels-Capital (BE)](https://github.com/raynaldipratama/geospatial_data_visualization/blob/main/17_openstreetmap_data/17_openstreetmap_data.ipynb): A static map showing the available car parks located in Etterbeek, Brussels-Capital (BE). *Tools:* `OSMnx` `Matplotlib`
