@@ -20,6 +20,9 @@ knitr::opts_chunk$set(echo = TRUE)
 **Library setup:**
 
 ```{r message=FALSE, warning=FALSE}
+# Working with table
+library(kableExtra)
+
 # Data wrangling
 library(dplyr)
 
@@ -33,8 +36,6 @@ library(tmap)
 library(grid)
 ```
 
-***
-
 ## Basic map of New Zealand
 
 The data we are going to use for this project is available in **`spData`** library. Thanks to **Robin Lovelace and his colleagues** for providing, not only a brief intro to **`spData`** library but also a great learning source: [Geocomputation with R](https://geocompr.robinlovelace.net/). In this case, a set of geo-information corresponding to New Zealand, collected in **`nz`** dataset, is chosen.
@@ -42,7 +43,9 @@ The data we are going to use for this project is available in **`spData`** libra
 ### Load the data
 
 ```{r}
-str(nz)
+kbl(nz) %>%
+  kable_paper() %>%
+  scroll_box(width = "100%", height = "300px")
 ```
 
 ### Plot the data
@@ -73,8 +76,6 @@ basic_map_nz <- tm_shape(nz) +
 
 basic_map_nz
 ```
-
-***
 
 ## Population and sex ratio in NZ
 
@@ -140,8 +141,6 @@ To get a general picture of the comparison between population and sex ratio in N
 tmap_arrange(population_nz, sex_ratio_nz)
 ```
 
-***
-
 ## Median income in NZ (South)
 
 ### Plot the median income data
@@ -191,8 +190,6 @@ south_median_income
 
 print(inset, vp = viewport(0.65, 0.25, width = 0.25, height = 0.35))
 ```
-
-***
 
 ## Animated and interactive map
 

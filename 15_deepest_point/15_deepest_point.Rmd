@@ -38,8 +38,6 @@ library(rgdal)
 library(marmap)
 ```
 
-***
-
 ## World map spatial data
 
 To begin, we will obtain the world map data using **`ne_countries`** command and specify the arguments such that **`scale = "medium"`** and **`returnclass = "sf"`**.
@@ -69,8 +67,6 @@ ggplot() +
   ylab("Latitude") +
   ggtitle("World Map")
 ```
-
-***
 
 ## Area of interest: Bay of Biscay
 
@@ -154,8 +150,6 @@ ggplot() +
   ylab("Latitude") +
   ggtitle("Bay of Biscay")
 ```
-
-***
 
 ## The deepest point
 

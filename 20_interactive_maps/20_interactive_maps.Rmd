@@ -20,6 +20,9 @@ knitr::opts_chunk$set(echo = TRUE)
 **Library setup:**
 
 ```{r message=FALSE, warning=FALSE}
+# Working with table
+library(kableExtra)
+
 # Data wrangling
 library(dplyr)
 
@@ -29,8 +32,6 @@ library(leaflet)
 # Additional package
 library(magrittr)
 ```
-
-***
 
 ## Basic map of Boston
 
@@ -60,8 +61,6 @@ map_boston <- leaflet() %>%
 map_boston
 ```
 
-***
-
 ## Load the data
 
 **`Charging_Stations`** is available, along with the other open access datasets, on the City of Boston's open data hub: [Analyse Boston](https://data.boston.gov/).  
@@ -71,7 +70,9 @@ map_boston
 ```{r}
 data_boston <- read.csv("Charging_Stations.csv") # Find the coresponding file inside 00_data/
 
-str(data_boston)
+kbl(data_boston) %>%
+  kable_paper() %>%
+  scroll_box(width = "100%", height = "300px")
 ```
 
 ### Inspect the connector types
@@ -92,8 +93,6 @@ data_charging_stations <- data_boston %>%
 data_charging_stations$EV_Connector_Types
 ```
 
-***
-
 ## Plot the corresponding data
 
 ```{r out.width='100%'}
@@ -111,8 +110,6 @@ map_boston
 ```
 
 All selected charging station locations are already represented in the figure above. However, we cannot tell which station uses either **"J1772"** or **"TESLA"** connector. In that case, one way to fix that is by changing the popup argument to **`$EV_Connector_Types`**. That way, we can identify the connector type in each location by clicking on the marker.
-
-***
 
 ## Cluster the markers
 
